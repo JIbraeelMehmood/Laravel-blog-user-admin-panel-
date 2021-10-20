@@ -36,7 +36,7 @@ class RedirectIfAuthenticated
                return redirect('/user_dashboard');
                break; 
             default:
-               return redirect('/home'); 
+               return redirect('/visiters'); 
                break;
           }
         }

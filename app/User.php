@@ -7,6 +7,16 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 
+
+#use Illuminate\Database\Eloquent\Model;
+#use Hypefactors\Laravel\Follow\Traits\CanFollow;
+#use Hypefactors\Laravel\Follow\Contracts\CanFollowContract;
+#class User extends Model implements CanFollowContract
+#{
+    #use CanFollow;
+#}
+
+
 class User extends Authenticatable
 {
     use HasApiTokens,Notifiable;
@@ -38,10 +48,14 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-public function post(){
-    return $this->hasMany(Post::class);
-}
+    public function post(){
+        return $this->hasMany(Post::class);
+    }
 
+    #public function ratings()
+    #{
+        #return $this->hasMany(Rating::class);
+    #}
 
 
 }

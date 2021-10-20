@@ -5,10 +5,10 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-
 class RegisterController extends Controller
 {
     /*
@@ -29,8 +29,30 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
-
+    #ByDefault ->protected $redirectTo = RouteServiceProvider::HOME;
+    public function redirectTo() 
+    {
+      if (!Auth::user()->status == 1) 
+      {
+        Auth::logout();
+        return redirect('/')->withError('Please activate your account before logging in.');
+      }else
+      {
+        $role = Auth::user()->role; 
+        switch ($role) 
+          {
+            case 'admin':
+              return '/admin_dashboard';
+              break;
+            case 'user':
+              return '/user_dashboard';
+              break; 
+            default:
+              return '/visiters'; 
+            break;
+          }
+      }
+    }
     /**
      * Create a new controller instance.
      *
@@ -66,13 +88,24 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' =>  $data['name'],
-            'email' => $data['email'],
-            'role' =>  $data['role'],
-            'status' =>'1' ,
-            'mobile' =>  $data['mobile'],
-            'password' => Hash::make($data['password']),
-        ]);
+        #if (User::where('role', '=', $data['role'])->exists()) 
+        #{
+          // admin found
+          #return redirect('wrongRequest')->withError('Admin Already Present...');
+          #return redirect(route('postIndex'))->with('status','Admin Already Present...');
+          #return back()->with('success', 'Admin Already Present...');
+          #return view('layouts.wrongRequest_404');
+        #}
+        #else  
+        #{
+            return User::create([
+                'name' =>  $data['name'],
+                'email' => $data['email'],
+                'role' =>  $data['role'],
+                'status' =>'1' ,
+                'mobile' =>  $data['mobile'],
+                'password' => Hash::make($data['password']),
+            ]);
+        #}  
     }
 }

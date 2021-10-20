@@ -36,6 +36,35 @@
         });
     })
   })
+//=====================================================
+$("#input-id").rating();
+    //=========================================
+    //$(document).on("click",".setvalue",function() {
+            //var inp =  $('#myBtn_' + id).val();
+         //   var id = $(this).attr("id")
+         //       alert ("test"+id);
+        //  });
+            //alert(e.getAttribute("id"));
+    //--------------------------------
+    function myFunction(e) {
+    //var moreText = e.getAttribute("id");
+    //var moreTextid = document.getElementById("more_"+postid);
+    var postid = e.getAttribute("postid");
+    var moreText = document.getElementById("more_"+postid);
+    var dots = document.getElementById("dots_"+postid);
+    var id = e.getAttribute("postid");
+    var btnText = id;
+    //alert ("more test-"+moreTextid+"postid"+postid);
+    if (dots.style.display === "none") {
+        dots.style.display = "inline";
+        btnText.innerHTML = "Read more";
+        moreText.style.display = "none";
+    } else {
+        dots.style.display = "none";
+        btnText.innerHTML = "Read less";
+        moreText.style.display = "inline";
+    }
+}
 </script>
 <!-- VOID Scripts -->
 <!-- <script src="assests/js/jquery-3.5.1.min.js"></script> -->

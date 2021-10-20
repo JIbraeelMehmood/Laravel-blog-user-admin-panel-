@@ -14,10 +14,16 @@ class AdminController extends Controller
       {
         $this->middleware('auth');
       }
+  
+      public function wrongRequest() 
+      {
+        return view('layouts.wrongRequest_404');
+      }
 
       public function index()
       {
-        return view('Dashboards.Admin');
+        $posts=Post::all();
+        return view('Dashboards.Admin',['posts'=>$posts]);
       }
 
       public function blogRequest(Request $request)
@@ -31,11 +37,7 @@ class AdminController extends Controller
         #return view('pages.admin-blogRequest', compact('posts'))->with('i', (request()->input('page', 1) - 1) * 10);
         return view('pages.admin-blogRequest', compact('posts'));
       }
-  
-      public function acceptBlog() 
-      {
 
-      }
 //----------------------------------------------------------------------------------------
       public function denyBlog($id)
       {
@@ -76,9 +78,9 @@ class AdminController extends Controller
      */
       public function changeStatus(Request $request)
       {
-          $user = User::find($request->user_id);
-          $user->status = $request->status;
-          $user->save();
-          return response()->json(['success'=>'Status change successfully.']);
+        $user = User::find($request->user_id);
+        $user->status = $request->status;
+        $user->save();
+        return response()->json(['success'=>'Status change successfully.']);
       }
 }

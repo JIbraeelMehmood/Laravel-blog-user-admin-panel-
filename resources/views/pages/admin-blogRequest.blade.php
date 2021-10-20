@@ -39,21 +39,19 @@
                             <tbody>
                             @if(count($posts) > 0)
                                 @foreach($posts as $row)
-
                                 <tr>
                                     <td>{{ $row->id }}</td>
                                     <td>{{ $row->title }}</td>
-                                    <td>{{ $row->body }}</td>
+                                    <td class="w-50">{{ $row->body }}</td>
                                     <td>{{ date_format($row->updated_at, 'jS M Y') }}</td>
                                     <td>
                                         @if(request()->has('view_deleted'))
-
                                             <a href="{{ route('post.restore', $row->id) }}" class="btn btn-success btn-sm">Restore</a>
                                         @else
                                             <form method="post" action="{{ route('post.denyBlog', $row->id) }}">
                                                 @csrf
                                                 <input type="hidden" name="_method" value="DELETE" />
-                                                <button type="submit" class="btn btn-danger btn-sm">Deny</button>
+                                                <button type="submit" class="btn btn-outline-secondary btn-sm">Deny</button>
                                                 <a href="{{ route('deletePermanently', $row->id) }}" title="Permanently delete">
                                                     <i class="fas fa-trash text-danger  fa-lg"></i>
                                                 </a>

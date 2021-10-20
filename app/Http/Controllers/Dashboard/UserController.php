@@ -15,6 +15,7 @@ class UserController extends Controller
       public function index(Request $request) {
         #$posts=Post::all();
         $userid = $request->user()->id;
+        //where('deleted_at','=','NULL')->
         $posts= Post::where('user_id',$userid)->get(); 
         return view('Dashboards.User',['posts'=>$posts]);
       }

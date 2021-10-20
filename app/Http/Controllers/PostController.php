@@ -6,7 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use  App\Post;
 use  App\User;
+use  App\Rating;
 use  App\Category;
+use Snipe\BanBuilder\CensorWords;
 class PostController extends Controller
 {
     /**
@@ -32,9 +34,20 @@ class PostController extends Controller
         $user =$request-> user();
         $post =new Post;
         $post->title=$request->title;
-        $string=implode(",",$request->postCategory);
-        $post->category=$string;
-        $post->body=$request->body;
+        $arrTOstr=implode(",",$request->postCategory);
+        $post->category=$arrTOstr;
+
+        #$post->body=$request->body;
+        #$censor = new CensorWords;
+        #$string = $censor->censorString($arrTOstr);
+        $blacklist  = ['FUCK','fuck','Fuck','Fucker','BITCH','bitch','Bitch'];
+        $filter = str_replace($blacklist, "***", $request->body);
+        $post->body = $filter;
+        $post->status = 1;
+        #$rating =new Rating;
+        #$avgStar =$rating->where('post_id', $this->$post->id)->avg('rating');
+        #$post->avg_rating = $avgStar;
+        
         $user->post()->save($post);
         return redirect(route('postIndex'))->with('status','Post Added');
     }
@@ -93,7 +106,7 @@ class PostController extends Controller
         $post->title=$request->title;
         $post->body=$request->body;
         $post->save();
-        return redirect(route('/admin_dashboard'))->with('status',$data.' Post Updated');
+        return redirect(route('user_dashboard'))->with('status',$data.' Post Updated');
     }
 
     /**
@@ -106,6 +119,6 @@ class PostController extends Controller
     {
         //
         Post::destroy($id);
-        return redirect(route('/admin_dashboard'))->with('status',$id.' Post Delete');
+        return redirect(route('/user_dashboard'))->with('status',$id.' Post Delete');
     }
 }

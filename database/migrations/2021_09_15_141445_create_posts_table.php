@@ -18,6 +18,8 @@ class CreatePostsTable extends Migration
             $table->string('title');
             $table->string('category');
             $table->text('body');
+            $table->string('status');
+            $table->integer('avg_rating')->nullable();
             $table->foreignId('user_id')->constrained('users');
             $table->softDeletes();
             $table->timestamps();

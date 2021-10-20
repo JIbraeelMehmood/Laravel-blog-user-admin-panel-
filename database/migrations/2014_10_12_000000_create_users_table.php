@@ -17,7 +17,8 @@ class CreateUsersTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            $table->string('role');
+            #$table->string('role')->default('user');
+            $table->enum('role', ['user','admin'])->default('user');
             $table->string('status');
             $table->string('google_id')->nullable();
             $table->string('mobile')->nullable();

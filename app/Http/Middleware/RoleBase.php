@@ -14,24 +14,23 @@ class RoleBase
      * @param  \Closure  $next
      * @return mixed
      */
-#One Method
-    #public function handle($request, Closure $next)
-    #{
-        #if ( Auth::check() && Auth::user()->isAdmin() )
-        #{
-            #return $next($request);
-        #}
-        #return redirect('home');
-    #}
+
 #2nd Method
     public function handle($request, Closure $next, String $role) {
         if (!Auth::check()) // This isnt necessary, it should be part of your 'auth' middleware
-        return redirect('/home');
+        return redirect('/no_dashboard');
 
-        $user = Auth::user();
-        if($user->role == $role)
-        return $next($request);
+        #if ( Auth::check() && Auth::user()->isAdmin() )
+        #{
+        #    return $next($request);
+        #}
+        #return redirect('/admin_dashboard');
 
-        return redirect('/home');
+
+        if(Auth::user()->role == $role)
+        {
+            return $next($request);
+        }
+        return redirect('/user_dashboard');
     }
 }

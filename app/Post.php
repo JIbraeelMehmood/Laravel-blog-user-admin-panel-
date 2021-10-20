@@ -24,4 +24,7 @@ protected $dates = ['deleted_at'];
         return $this->hasMany('App\Rating');
     }
 
+    public function allRelatedratings(){
+        return $this->belongsToMany(Rating::class)->withPivot('rating');
+    }
 }

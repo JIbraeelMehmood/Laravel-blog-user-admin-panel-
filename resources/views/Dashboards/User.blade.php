@@ -1,6 +1,6 @@
 @extends('layouts.app')
 <style>
-    #more  {display:  none;}
+    .more  {display:  none;}
 </style>
 @section('content')
         <!--  -->
@@ -11,7 +11,7 @@
 <!--
     @if (session('status'))
     <div class="alert alert-success" role="alert">
-        {{ session('status') }}
+        {{ session('status') }} 
     </div>
     @endif
 -->
@@ -56,15 +56,15 @@
                                         {{ $post->title }}
                                     </p>
                                 </div>
-                                <div class=" mb-1" style=" text-align: justify;text-justify: inter-word;">
-                                    <p>
-                                        {{ Str::limit($post->body, 30, '') }}
+                                <div class=" mb-1" >
+                                    <p style=" text-align: justify;text-justify: inter-word;">
+                                        {{ Str::limit($post->body,40, '') }}
                                         @if (strlen($post->body) > 15)
-                                            <span id="dots">...</span>
-                                            <span class="moretext" id="more_{{$post->id}}">{{ substr($post->body, 30) }}</span>
+                                            <span id="dots_{{$post->id}}" style="font-size: 25px;">...</span>
+                                            <br>FullStory:<br> <span class="more" id="more_{{$post->id}}" style="color:rgb(182, 28, 28);" >{{ substr($post->body,10) }}</span>
                                         @endif
                                     </p>
-                                    <button class="btn-success btn btn-xs" onclick="myFunction(this)" id="myBtn_{{$post->id}}">Read more</button>
+                                    <button class="btn-success btn btn-xs" postid="{{$post->id}}" onclick="myFunction(this)" id="myBtn_{{$post->id}}">Read more</button>
                                 </div>
                                 <div class="row mb-1">
                                     <p class="col-sm-6 p-0 m-0 text-dark">Publish Date:</p>
@@ -77,8 +77,6 @@
                                     <p class="col-sm-6 text-dark p-0 m-0">Last Update:</p>
                                     <p class="col-sm-6 p-0 m-0">
                                     {{ \Carbon\Carbon::parse($post->created_at)->format('Y-m-d') }}
-
-
                                 </p>
                                 </div>
                             </div>
@@ -100,15 +98,17 @@
          //   var id = $(this).attr("id")
          //       alert ("test"+id);
         //  });
+            //alert(e.getAttribute("id"));
     //--------------------------------
     function myFunction(e) {
-    //alert(e.getAttribute("id"));
-    var dots = document.getElementById("dots");
-    var moreText = document.getElementById("more");
-    var moreText = $(".moretext").attr('id');
-    alert ("more test-"+moreText);
-    var id = e.getAttribute("id");
+    //var moreText = e.getAttribute("id");
+    //var moreTextid = document.getElementById("more_"+postid);
+    var postid = e.getAttribute("postid");
+    var moreText = document.getElementById("more_"+postid);
+    var dots = document.getElementById("dots_"+postid);
+    var id = e.getAttribute("postid");
     var btnText = id;
+    //alert ("more test-"+moreTextid+"postid"+postid);
     if (dots.style.display === "none") {
         dots.style.display = "inline";
         btnText.innerHTML = "Read more";

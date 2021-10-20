@@ -30,7 +30,7 @@ class LoginController extends Controller
 
     public function redirectTo() 
     {
-      if (! Auth::user()->status) 
+      if (!Auth::user()->status == 1) 
       {
         Auth::logout();
         return redirect('/')->withError('Please activate your account before logging in.');
@@ -46,7 +46,7 @@ class LoginController extends Controller
               return '/user_dashboard';
               break; 
             default:
-              return '/home'; 
+              return '/visiters'; 
             break;
           }
       }
